@@ -1,0 +1,28 @@
+<div id="card">
+    <div id="IMG">
+        <img [src]="Character.image " alt="" id="img_haracter">
+    </div>
+    <div id="info">
+        <span>Name: {{Character.name}} </span>
+        <span> {{Character.affiliation}} </span>
+        <!--<span> {{Character.description}} </span>-->
+        <span> Gender: {{Character.gender}} </span>
+        <span>Ki: {{Character.ki}} </span>
+        <span>Race: {{Character.race}} </span>
+        <button (click)="handleClickTransformaciones()"> transformaciones </button>
+        <button (click)="handleClickOriginPlanet()" > planeta de origen </button>
+    </div>
+</div>
+
+<div *ngIf="modal" id="modal">
+    <div id="cardModal">
+        <div id="infoModal">
+            <span id="nombre">Nombre del planeta: {{originPlanet.originPlanet.name}}</span>
+            <span id="descripcion">
+                Descripcion:
+                {{originPlanet.originPlanet.description}}
+            </span>
+        </div>
+        <button (click)="handleClickOriginPlanetClose()">cerrar</button>
+    </div>
+</div>

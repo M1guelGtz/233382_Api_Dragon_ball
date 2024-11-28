@@ -1,0 +1,150 @@
+.carousel-container {
+    text-align: center;
+    scrollbar-width: none;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    overflow: hidden;
+    overflow-y: scroll;
+
+  }
+  
+  .carousel {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .carousel button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  .transformations-cards {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  
+  .card {
+    width: 200px;
+    margin: 10px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    text-align: center;
+  }
+  
+  .card-img {
+    width: 100%;
+    height: 50%;
+    border-radius: 10px;
+  }
+  
+  .card-body {
+    margin-top: 10px;
+  }
+  
+  form {
+    margin-top: 10px;
+  }
+  
+  input {
+    padding: 5px;
+    font-size: 16px;
+    margin-right: 10px;
+  }
+  
+  button {
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+
+  #card{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    
+}
+#info{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+    padding: 5px;
+}
+.data{
+    width: 100%;
+    display: flex;
+}
+#IMG{
+    width: 100px;
+    height: 200px;
+}
+#img_haracter{
+    height: 100%;
+    filter: grayscale(.5);
+    transform: translateY(-25px);
+}
+#card:hover > div > img{
+    transform: scale(1.4) translateY(-30px);
+    transition: 500ms;
+    filter: drop-shadow(4px 6px 8px rgba(0, 0, 0, 0.9));
+}
+span{
+    display: block;
+    width: 100%;
+}
+#modal{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2  ;
+    background-color: rgba(0, 0, 0, 0.433);
+}
+#cardModal{
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    height: 70%;
+    background: floralwhite;
+    border-radius: 20px;
+    padding: 20px;
+}
+#infoModal{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+
+}
+#nombre{
+    border-radius: 10px;
+    background: rgba(0, 115, 255, 0.727);
+    padding: 5px;
+    text-align: center;
+}
+#descripcion{
+    border-radius: 10px;
+    padding: 5px;
+    text-align: justify;
+    margin-top: 10px;
+}
+  

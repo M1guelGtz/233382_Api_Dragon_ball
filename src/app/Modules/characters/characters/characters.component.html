@@ -1,0 +1,13 @@
+
+<div  id="form" *ngIf="!mostrarCharacters">
+    <label for="user"></label>Nombre del usuario:
+    <input type="text" placeholder="Introduce nombre de usuario"  name="" id="user" [(ngModel)]="user" >
+    <button (click)="handleSubmitData()" (submit)="false">  Cargar datos </button>
+</div>
+<div id="list" *ngIf="mostrarCharacters">
+    <div  *ngFor="let character of _service_characters.characters " id="cards">
+        <div>
+            <app-card-characters [Character]="character"/>
+        </div>
+    </div>
+</div>

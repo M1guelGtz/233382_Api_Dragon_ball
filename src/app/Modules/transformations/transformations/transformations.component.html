@@ -1,0 +1,55 @@
+<div class="carousel-container">
+    <div class="carousel">
+      <button [disabled]="prevLock" (click)="changeCharacterPrev(name!)">prev</button>
+      <button [disabled]="nextLock" (click)="changeCharacterNext(name!)">next</button>
+    </div>
+    <div class="transformations-cards">
+      <div *ngFor="let transformation of transformations()" class="card">
+        <div id="card">
+          <div id="IMG">
+              <img [src]="transformation.image " alt="" id="img_haracter">
+          </div>
+          <div id="info">
+              <span>Name: {{transformation.name}} </span>
+              <span>Ki: {{transformation.ki}} </span>
+              <button (click)="OpenModal(transformation.id)"> Editar </button>
+          </div>
+      </div>
+      </div>
+    </div>
+  </div>
+  <div>
+
+  </div>
+
+  <div *ngIf="modal" id="modal">
+    <form id="cardModal">
+        <div id="infoModal">
+          <label for="">name:
+            <input type="text" [value]="character.character.name" disabled name="" id="">
+          </label><label for="">Race:
+            <input type="text" [value]="character.character.race" disabled name="" id="">
+          </label><label for="">Gender:
+            <input type="text" [value]="character.character.gender" disabled name="" id="">
+          </label><label for="">affiliation:
+            <input type="text" [value]="character.character.affiliation" disabled name="" id="">
+          </label>
+          <label for="">Description:
+            <input type="text" [value]="character.character.description" disabled name="" id="">
+          </label>
+          <label for="">maxKi:
+            <input type="text" [value]="character.character.maxKi" disabled name="" id="">
+          </label>
+          <label for="">Ki:
+            <input type="text" [value]="character.character.ki"  name="" id="">
+          </label>
+          
+        </div>
+        <div id="">
+          <button (click)="closeModal()"> Editar </button>
+          <button (click)="closeModal()"> cerrar </button>
+        </div>
+      </form>
+</div>
+ki
+maxKi
