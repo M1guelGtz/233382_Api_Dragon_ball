@@ -25,27 +25,27 @@
   <div *ngIf="modal" id="modal">
     <form id="cardModal">
         <div id="infoModal">
-          <label for="">name:
+          <label for="">name: <br>
             <input type="text" [value]="character.character.name" disabled name="" id="">
-          </label><label for="">Race:
+          </label><label for="">Race:<br>
             <input type="text" [value]="character.character.race" disabled name="" id="">
-          </label><label for="">Gender:
+          </label><label for="">Gender:<br>
             <input type="text" [value]="character.character.gender" disabled name="" id="">
-          </label><label for="">affiliation:
+          </label><label for="">affiliation:<br>
             <input type="text" [value]="character.character.affiliation" disabled name="" id="">
           </label>
-          <label for="">Description:
+          <label for="">Description:<br>
             <input type="text" [value]="character.character.description" disabled name="" id="">
           </label>
-          <label for="">maxKi:
+          <label for="">maxKi:<br>
             <input type="text" [value]="character.character.maxKi" disabled name="" id="">
           </label>
-          <label for="">Ki:
+          <label for="">Ki:<br>
             <input type="text" [value]="character.character.ki"  name="" id="">
           </label>
           
         </div>
-        <div id="">
+        <div id="buttons">
           <button (click)="closeModal()"> Editar </button>
           <button (click)="closeModal()"> cerrar </button>
         </div>
