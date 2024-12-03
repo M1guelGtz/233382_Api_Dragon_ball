@@ -1,10 +1,14 @@
 
 <div  id="form" *ngIf="!mostrarCharacters">
-    <label for="user"></label>Nombre del usuario:
-    <input type="text" placeholder="Introduce nombre de usuario"  name="" id="user" [(ngModel)]="user" >
-    <button (click)="handleSubmitData()" (submit)="false">  Cargar datos </button>
+    <form action="" (submit)="handleSubmitData()">
+        <label for="user">Nombre del usuario:</label>
+        <input type="text" placeholder="Introduce nombre de usuario"  name="" id="user" [(ngModel)]="user" [ngModelOptions]="{standalone: true}">
+        <button (click)="handleSubmitData()">  Cargar datos </button>
+        <span *ngIf="error"> Usuario invalido, no se permiten caracteres especiales </span>
+    </form>
 </div>
 <div id="list" *ngIf="mostrarCharacters">
+    <h1>Lista de personajes</h1>
     <div  *ngFor="let character of _service_characters.characters " id="cards">
         <div>
             <app-card-characters [Character]="character"/>

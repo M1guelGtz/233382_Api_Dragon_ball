@@ -1,26 +1,26 @@
 <div class="carousel-container">
-    <div class="carousel">
-      <button [disabled]="prevLock" (click)="changeCharacterPrev(name!)">prev</button>
-      <button [disabled]="nextLock" (click)="changeCharacterNext(name!)">next</button>
+  <div class="carousel">
+    <button>Volver</button>
+    <div class="buttons">
+      <button [disabled]="prevLock" (click)="changeCharacterPrev()">Anterior</button>
+      <button [disabled]="nextLock" (click)="changeCharacterNext()">Siguiente</button>
     </div>
-    <div class="transformations-cards">
-      <div *ngFor="let transformation of transformations()" class="card">
-        <div id="card">
-          <div id="IMG">
-              <img [src]="transformation.image " alt="" id="img_haracter">
-          </div>
-          <div id="info">
-              <span>Name: {{transformation.name}} </span>
-              <span>Ki: {{transformation.ki}} </span>
-              <button (click)="OpenModal(transformation.id)"> Editar </button>
-          </div>
-      </div>
+  </div>
+  <div class="transformations-cards">
+    <div *ngFor="let transformation of transformations()" class="card">
+      <div class="card-content">
+        <div class="image-container">
+          <img [src]="transformation.image" alt="Imagen de {{transformation.name}}" id="IMG" class="character-image" />
+        </div>
+        <div class="info">
+          <span>Name: {{ transformation.name }}</span>
+          <span>Ki: {{ transformation.ki }}</span>
+          <button (click)="OpenModal(transformation.id)">Editar</button>
+        </div>
       </div>
     </div>
   </div>
-  <div>
-
-  </div>
+</div>
 
   <div *ngIf="modal" id="modal">
     <form id="cardModal">
@@ -43,7 +43,6 @@
           <label for="">Ki:<br>
             <input type="text" [value]="character.character.ki"  name="" id="">
           </label>
-          
         </div>
         <div id="buttons">
           <button (click)="closeModal()"> Editar </button>
@@ -51,5 +50,3 @@
         </div>
       </form>
 </div>
-ki
-maxKi

@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TransformationsService } from '../../../Services/transformations.service';
@@ -9,79 +9,84 @@ import { TransformationsService } from '../../../Services/transformations.servic
   styleUrls: ['./transformations.component.css']
 })
 export class TransformationComponent implements OnInit {
-  personajes: string[]=['goku', 'vegeta', 'piccolo', 'freezer', 'zarbon', 'gohan']
+  personajes: string[] = ['goku', 'vegeta', 'piccolo', 'freezer', 'zarbon', 'gohan'];
   currentCharacter!: string;
   editForm: FormGroup;
-  prevLock: boolean = false
-  nextLock : boolean = false
+  prevLock: boolean = false;
+  nextLock: boolean = false;
+  name: string | null = null;
+  character!: any;
+  modal: boolean = false;
+
+  transformations = signal<any[]>([]);
+
   constructor(
     private router: ActivatedRoute,
     private transformationsService: TransformationsService,
     private fb: FormBuilder,
-    private route: Router
+    private route: Router,
+    private cdr: ChangeDetectorRef // Para forzar detección de cambios si es necesario
   ) {
     this.editForm = this.fb.group({
-      ki: ['', [Validators.required, Validators.pattern('^[0-9a-zA-Z. ]+$')]],
+      ki: ['', [Validators.required, Validators.pattern('^[0-9a-zA-Z. ]+$')]]
     });
   }
-  name: string | null = null
+
   ngOnInit(): void {
-    this.name = this.router.snapshot.paramMap.get('name')
-    this.currentCharacter = this.name ?? 'goku'
+    // Escuchar cambios en los parámetros de la ruta
+    this.router.paramMap.subscribe(params => {
+      this.name = params.get('name');
+      this.currentCharacter = this.name ?? 'goku';
+      this.loadTransformations();
+    });
+  }
+
+  loadTransformations(): void {
     this.transformationsService.getTransformations().subscribe({
       next: (data) => {
         console.log(data);
-        
         this.filterTransformations(data);
+        this.cdr.detectChanges(); // Forzar detección de cambios si es necesario
       },
       error: (err) => {
         console.error('Error al obtener las transformaciones:', err);
       }
     });
-    
   }
-  character !: any;
 
-  modal : boolean = false
-
-  OpenModal(id: number){
-    this.modal =  true;
+  OpenModal(id: number): void {
+    this.modal = true;
     this.transformationsService.getTransformationsById(id).subscribe(
-      data=>{
+      data => {
         console.log(data);
-        this.character = data
+        this.character = data;
       },
       e => console.log(e)
-      
-    )
+    );
   }
-  closeModal(){
+
+  closeModal(): void {
     this.modal = false;
   }
-  changeCharacterNext(character: string): void {
-    this.prevLock = false
-    this.personajes.map( (characterName, index) => {
-      if(characterName == this.name ){
-        index > character.length -1 ? this.nextLock=true: this.nextLock=false
-        if(index < this.personajes.length - 1){
-          this.route.navigate(["transformations/" + this.personajes[index+1]])
-        }
-      }
-    })
-    this.currentCharacter = character;
+
+  changeCharacterNext(): void {
+    const currentIndex = this.personajes.indexOf(this.currentCharacter);
+    if (currentIndex < this.personajes.length - 1) {
+      const nextCharacter = this.personajes[currentIndex + 1];
+      this.route.navigate(["transformations", nextCharacter]);
+    } else {
+      this.nextLock = true;
+    }
   }
-  changeCharacterPrev(character: string): void {
-    this.nextLock=false
-    this.personajes.map( (characterName, index) => {
-      if(characterName == this.name ){
-        console.log(index);
-        index < 1 ? this.prevLock=true: this.prevLock=false
-        if(index > 0){
-          this.route.navigate(["transformations/" + this.personajes[index -1]])
-        }
-      }
-    })
-    this.currentCharacter = character;
+
+  changeCharacterPrev(): void {
+    const currentIndex = this.personajes.indexOf(this.currentCharacter);
+    if (currentIndex > 0) {
+      const prevCharacter = this.personajes[currentIndex - 1];
+      this.route.navigate(["transformations", prevCharacter]);
+    } else {
+      this.prevLock = true;
+    }
   }
 
   saveKi(transformation: any): void {
@@ -89,14 +94,9 @@ export class TransformationComponent implements OnInit {
     console.log(`Ki actualizado para ${transformation.name}: ${transformation.ki}`);
   }
 
-
-  transformations = signal<any[]>([]);
-
   filterTransformations(data: any[]): void {
     this.transformations.set(
-      data.filter(t => t.name.toLowerCase().includes(this.name?.toLowerCase()))
+      data.filter(t => t.name.toLowerCase().includes(this.name?.toLowerCase() ?? ''))
     );
   }
 }
-
-

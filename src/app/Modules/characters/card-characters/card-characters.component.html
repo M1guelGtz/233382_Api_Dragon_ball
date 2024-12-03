@@ -3,26 +3,28 @@
         <img [src]="Character.image " alt="" id="img_haracter">
     </div>
     <div id="info">
-        <span>Name: {{Character.name}} </span>
-        <span> {{Character.affiliation}} </span>
-        <!--<span> {{Character.description}} </span>-->
-        <span> Gender: {{Character.gender}} </span>
-        <span>Ki: {{Character.ki}} </span>
-        <span>Race: {{Character.race}} </span>
-        <button (click)="handleClickTransformaciones()"> transformaciones </button>
-        <button (click)="handleClickOriginPlanet()" > planeta de origen </button>
+        <div class="info"><span>Name:</span>  <span>{{Character.name}}</span></div>
+        <div class="info"><span>Afffliation:</span>  <span>{{Character.affiliation}}</span></div>
+        <div class="info"><span>Gender:</span>  <span>{{Character.gender}}</span></div>
+        <div class="info"><span>Ki:</span>  <span>{{Character.ki}}</span></div>
+        <div class="info"><span>Race:</span><span> {{Character.race}} </span></div>
+        <div class="buttons">
+            <button (click)="handleClickTransformaciones()"> transformaciones </button>
+            <button (click)="handleClickOriginPlanet()" > planeta de origen </button>
+        </div>
     </div>
 </div>
 
 <div *ngIf="modal" id="modal">
     <div id="cardModal">
+        <img [src]="originPlanet.originPlanet.image" alt="" id="planeta">
         <div id="infoModal">
             <span id="nombre">Nombre del planeta: {{originPlanet.originPlanet.name}}</span>
             <span id="descripcion">
                 Descripcion:
                 {{originPlanet.originPlanet.description}}
             </span>
+            <button (click)="handleClickOriginPlanetClose()">cerrar</button>
         </div>
-        <button (click)="handleClickOriginPlanetClose()">cerrar</button>
     </div>
 </div>
