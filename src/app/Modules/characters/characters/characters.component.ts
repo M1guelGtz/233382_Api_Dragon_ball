@@ -25,7 +25,7 @@ export class CharactersComponent implements OnInit {
   }
   ngOnInit(): void {
     this.CargarDatos()
-    this.mostrarCharacters = true
+    // this.mostrarCharacters = true
   }
   CargarDatos(){
     this._service_characters.getCharacters().subscribe (

@@ -25,7 +25,7 @@ export class TransformationComponent implements OnInit {
     private transformationsService: TransformationsService,
     private fb: FormBuilder,
     private route: Router,
-    private cdr: ChangeDetectorRef // Para forzar detección de cambios si es necesario
+    private cdr: ChangeDetectorRef
   ) {
     this.editForm = this.fb.group({
       ki: ['', [Validators.required, Validators.pattern('^[0-9a-zA-Z. ]+$')]]
@@ -38,31 +38,57 @@ export class TransformationComponent implements OnInit {
       this.name = params.get('name');
       this.currentCharacter = this.name ?? 'goku';
       this.loadTransformations();
+      this.updateNavigationLocks();
     });
   }
 
   loadTransformations(): void {
-    this.transformationsService.getTransformations().subscribe({
-      next: (data) => {
-        console.log(data);
-        this.filterTransformations(data);
-        this.cdr.detectChanges(); // Forzar detección de cambios si es necesario
-      },
-      error: (err) => {
-        console.error('Error al obtener las transformaciones:', err);
-      }
-    });
+    // Intentar cargar transformaciones desde LocalStorage
+    const storedTransformations = localStorage.getItem('transformations');
+    if (storedTransformations) {
+      console.log('Cargando transformaciones desde LocalStorage...');
+      const transformations = JSON.parse(storedTransformations);
+      const filteredTransformations = transformations.filter((t: any) =>
+        t.name.toLowerCase().includes(this.currentCharacter.toLowerCase())
+      );
+      this.transformations.set(filteredTransformations);
+    } else {
+      // Si no están en LocalStorage, obtenerlas del servicio
+      this.transformationsService.getTransformations().subscribe({
+        next: (data) => {
+          console.log('Transformaciones cargadas desde el servicio:', data);
+          localStorage.setItem('transformations', JSON.stringify(data)); // Guardar en LocalStorage
+          const filteredTransformations = data.filter((t: any) =>
+            t.name.toLowerCase().includes(this.currentCharacter.toLowerCase())
+          );
+          this.transformations.set(filteredTransformations);
+        },
+        error: (err) => {
+          console.error('Error al obtener las transformaciones:', err);
+        }
+      });
+    }
   }
+
+  updateNavigationLocks(): void {
+    const currentIndex = this.personajes.indexOf(this.currentCharacter);
+    this.prevLock = currentIndex === 0; // Bloquear "Prev" si estamos en el primer personaje
+    this.nextLock = currentIndex === this.personajes.length - 1; // Bloquear "Next" si estamos en el último personaje
+  }
+  
 
   OpenModal(id: number): void {
     this.modal = true;
-    this.transformationsService.getTransformationsById(id).subscribe(
-      data => {
-        console.log(data);
-        this.character = data;
-      },
-      e => console.log(e)
-    );
+    const selectedTransformation = this.transformations().find(t => t.id === id);
+
+    if (selectedTransformation) {
+      this.character = selectedTransformation;
+      this.editForm.setValue({
+        ki: selectedTransformation.ki
+      });
+    } else {
+      console.error('Transformación no encontrada.');
+    }
   }
 
   closeModal(): void {
@@ -74,29 +100,45 @@ export class TransformationComponent implements OnInit {
     if (currentIndex < this.personajes.length - 1) {
       const nextCharacter = this.personajes[currentIndex + 1];
       this.route.navigate(["transformations", nextCharacter]);
-    } else {
-      this.nextLock = true;
     }
+    this.updateNavigationLocks(); // Verificar si es necesario bloquear botones
   }
-
+  
   changeCharacterPrev(): void {
     const currentIndex = this.personajes.indexOf(this.currentCharacter);
     if (currentIndex > 0) {
       const prevCharacter = this.personajes[currentIndex - 1];
       this.route.navigate(["transformations", prevCharacter]);
-    } else {
-      this.prevLock = true;
     }
+    this.updateNavigationLocks(); // Verificar si es necesario bloquear botones
   }
+  
 
-  saveKi(transformation: any): void {
-    transformation.ki = this.editForm.value.ki;
-    console.log(`Ki actualizado para ${transformation.name}: ${transformation.ki}`);
-  }
+  saveKi(): void {
+    if (!this.character) {
+      console.error('No hay transformación cargada para guardar.');
+      return;
+    }
 
-  filterTransformations(data: any[]): void {
-    this.transformations.set(
-      data.filter(t => t.name.toLowerCase().includes(this.name?.toLowerCase() ?? ''))
-    );
+    // Actualizar el Ki de la transformación actual
+    this.character.ki = this.editForm.value.ki;
+
+    // Actualizar el objeto en LocalStorage
+    const storedTransformations = JSON.parse(localStorage.getItem('transformations') || '[]');
+    const index = storedTransformations.findIndex((t: any) => t.id === this.character.id);
+
+    if (index !== -1) {
+      storedTransformations[index] = this.character; // Actualizar transformación
+    } else {
+      storedTransformations.push(this.character); // Agregar nueva transformación si no existe
+    }
+
+    localStorage.setItem('transformations', JSON.stringify(storedTransformations));
+    console.log('Transformaciones actualizadas en LocalStorage:', storedTransformations);
+
+    // Refrescar la lista visible
+    this.loadTransformations();
+
+    this.closeModal(); // Cerrar el modal después de guardar
   }
 }

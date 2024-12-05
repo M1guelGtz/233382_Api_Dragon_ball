@@ -2,9 +2,9 @@
   <div class="carousel">
     <button>Volver</button>
     <div class="buttons">
-      <button [disabled]="prevLock" (click)="changeCharacterPrev()">Anterior</button>
-      <button [disabled]="nextLock" (click)="changeCharacterNext()">Siguiente</button>
-    </div>
+      <button *ngIf="!prevLock" (click)="changeCharacterPrev()">Anterior</button>
+      <button *ngIf="!nextLock" (click)="changeCharacterNext()">Siguiente</button>
+    </div>    
   </div>
   <div class="transformations-cards">
     <div *ngFor="let transformation of transformations()" class="card">
@@ -22,31 +22,34 @@
   </div>
 </div>
 
-  <div *ngIf="modal" id="modal">
-    <form id="cardModal">
-        <div id="infoModal">
-          <label for="">name: <br>
-            <input type="text" [value]="character.character.name" disabled name="" id="">
-          </label><label for="">Race:<br>
-            <input type="text" [value]="character.character.race" disabled name="" id="">
-          </label><label for="">Gender:<br>
-            <input type="text" [value]="character.character.gender" disabled name="" id="">
-          </label><label for="">affiliation:<br>
-            <input type="text" [value]="character.character.affiliation" disabled name="" id="">
-          </label>
-          <label for="">Description:<br>
-            <input type="text" [value]="character.character.description" disabled name="" id="">
-          </label>
-          <label for="">maxKi:<br>
-            <input type="text" [value]="character.character.maxKi" disabled name="" id="">
-          </label>
-          <label for="">Ki:<br>
-            <input type="text" [value]="character.character.ki"  name="" id="">
-          </label>
-        </div>
-        <div id="buttons">
-          <button (click)="closeModal()"> Editar </button>
-          <button (click)="closeModal()"> cerrar </button>
-        </div>
-      </form>
+<div *ngIf="modal" id="modal">
+  <form [formGroup]="editForm" id="cardModal">
+    <div id="infoModal">
+      <label for="">Name:<br>
+        <input type="text" [value]="character.name" disabled>
+      </label>
+      <label for="">Race:<br>
+        <input type="text" [value]="character.race" disabled>
+      </label>
+      <label for="">Gender:<br>
+        <input type="text" [value]="character.gender" disabled>
+      </label>
+      <label for="">Affiliation:<br>
+        <input type="text" [value]="character.affiliation" disabled>
+      </label>
+      <label for="">Description:<br>
+        <input type="text" [value]="character.description" disabled>
+      </label>
+      <label for="">Max Ki:<br>
+        <input type="text" [value]="character.maxKi" disabled>
+      </label>
+      <label for="">Ki:<br>
+        <input type="text" formControlName="ki">
+      </label>
+    </div>
+    <div id="buttons">
+      <button type="button" (click)="saveKi()">Guardar</button>
+      <button type="button" (click)="closeModal()">Cerrar</button>
+    </div>
+  </form>
 </div>

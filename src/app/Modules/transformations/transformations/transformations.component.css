@@ -1,84 +1,216 @@
+/* General */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: #212121;
+  color: #f5f5f5;
+}
+
 .carousel-container {
-    text-align: center;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    flex-direction: column;
-
-  }
-  .buttons{
-    width: 30%;
-    display: flex;
-    justify-content: space-evenly;
-  }
-  .carousel {
-    height: 15%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-  }
-  .transformations-cards {
-    height: 85%;
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-  }
-  
-  .card {
-    height: 250px;
-    width: 20%;
-    padding: 10px;
-  }
-.data{
-    width: 100%;
-    display: flex;
-}
-#IMG{
-    height: 200px;
-}
-.card:hover > div > div > img{
-    transform: scale(1.4) translateY(-30px);
-    transition: 500ms;
-    filter: drop-shadow(4px 6px 8px rgba(0, 0, 0, 0.9));
-}
-#modal{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 2  ;
-    background-color: rgba(0, 0, 0, 0.433);
-}
-#cardModal{
-    display: flex;
-    flex-direction: column;
-    width: 30%;
-    height: 70%;
-    background: floralwhite;
-    border-radius: 20px;
-    padding: 20px;
-    align-items: center;
-    justify-content: center;
-}
-#infoModal{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
+  text-align: center;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  flex-direction: column;
+  background-color: #212121;
 }
 
-  span{
-    width: 100%;
-    display: block;
-    margin-bottom: 10px;
-  }
+/* Carousel */
+.carousel {
+  height: 15%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.buttons {
+  width: 30%;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.carousel button {
+  background: #ff5722;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.carousel button:hover {
+  background: #e64a19;
+}
+
+.carousel button:disabled {
+  background: #757575;
+  cursor: not-allowed;
+}
+
+/* Transformations Cards */
+.transformations-cards {
+  height: 85%;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.card {
+  height: 350px; /* Ajuste de altura */
+  width: 20%;
+  padding: 15px;
+  background: #333333;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+  transition: transform 0.3s, box-shadow 0.3s;
+  color: #ffffff; /* Texto en blanco */
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.8);
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.image-container {
+  height: 200px; /* Ajusté la altura para que sea menor que la tarjeta */
+  width: 60%; /* Reduce el ancho para que no ocupe todo el espacio horizontal */
+  overflow: hidden;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.character-image {
+  width: 100%;
+  height: 200px; /* Mantiene la proporción de las imágenes */
+  object-fit: contain; /* Evita recortes y asegura que se vea completa */
+  transition: transform 0.5s, filter 0.3s;
+}
+
+
+.card:hover .character-image {
+  transform: scale(1.2);
+  filter: drop-shadow(4px 6px 8px rgba(0, 0, 0, 0.9));
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info span {
+  margin-bottom: 8px;
+  font-size: 1rem;
+  color: #ffffff; /* Texto en blanco */
+}
+
+.info button {
+  background: #03a9f4;
+  color: #fff;
+  border: none;
+  padding: 8px 15px;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.info button:hover {
+  background: #0288d1;
+}
+
+/* Modal */
+#modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+#cardModal {
+  display: flex;
+  flex-direction: column;
+  height: 50%;
+  width: 30%;
+  background: #f5f5f5;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.9);
+  align-items: center;
+}
+
+#infoModal {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+#infoModal label {
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+  color: #333333;
+  width: 100%;
+}
+
+#infoModal input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+#buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+#buttons button {
+  background: #4caf50;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#buttons button:hover {
+  background: #388e3c;
+}
+
+#buttons button:nth-child(2) {
+  background: #f44336;
+}
+
+#buttons button:nth-child(2):hover {
+  background: #d32f2f;
+}
