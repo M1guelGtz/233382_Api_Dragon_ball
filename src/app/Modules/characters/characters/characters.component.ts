@@ -27,16 +27,16 @@ export class CharactersComponent implements OnInit {
     this.CargarDatos()
     // this.mostrarCharacters = true
   }
-  CargarDatos(){
-    this._service_characters.getCharacters().subscribe (
-      ( characters ) => {
+  
+  CargarDatos() {
+    this._service_characters.characters = []; // Limpiar el array antes de llenarlo
+    this._service_characters.getCharacters().subscribe(
+      (characters) => {
         console.log(characters);
-        characters.items.map(
-          (element) =>{
-            this._service_characters.characters.push(element)
-          }
-        )
+        // Tomar solo los primeros 10 personajes
+        this._service_characters.characters = characters.items.slice(0, 10);
       }
-    )
+    );
   }
+  
 }

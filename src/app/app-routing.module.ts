@@ -6,7 +6,7 @@ import { TransformationComponent } from '../app/Modules/transformations/transfor
 
 const routes: Routes = [
   {
-    path: "",
+    path: "home",
     component: CharactersComponent
   },
   { path: 'transformations/:name', component: TransformationComponent },

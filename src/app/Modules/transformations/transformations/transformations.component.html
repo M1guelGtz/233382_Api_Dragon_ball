@@ -1,6 +1,6 @@
 <div class="carousel-container">
   <div class="carousel">
-    <button>Volver</button>
+    <button (click)="redirectToHome()">Salir</button>
     <div class="buttons">
       <button *ngIf="!prevLock" (click)="changeCharacterPrev()">Anterior</button>
       <button *ngIf="!nextLock" (click)="changeCharacterNext()">Siguiente</button>

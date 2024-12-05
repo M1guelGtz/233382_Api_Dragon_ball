@@ -141,4 +141,9 @@ export class TransformationComponent implements OnInit {
 
     this.closeModal(); // Cerrar el modal después de guardar
   }
+  
+  redirectToHome(): void {
+    this.route.navigate(['/home']);
+  }
+  
 }
